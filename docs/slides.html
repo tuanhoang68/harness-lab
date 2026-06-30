@@ -97,6 +97,19 @@
       <p class="quote">"Không chỉ build 1 app — mà build cỗ máy đẻ ra app, có test, mọi lần như một."</p>
     </section>
 
+    <!-- how-it-works (đầu) -->
+    <section class="slide">
+      <p class="cmd">$ how-it-works</p>
+      <h2>App hoạt động thế nào</h2>
+<pre>  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+  │  <span class="hl">Merchant</span>   │ <span class="cyan">───▶</span> │     <span class="hl">App</span>     │ <span class="cyan">───▶</span> │ <span class="hl">Storefront</span>  │
+  │  (store)    │      │  (backend)  │      │  + pixel    │
+  └─────────────┘      └─────────────┘      └─────────────┘</pre>
+      <p><span class="cyan">①</span> &nbsp;Merchant cài app + nhập <span class="hl">Pixel ID</span></p>
+      <p><span class="cyan">②</span> &nbsp;App tự gắn pixel vào storefront</p>
+      <p><span class="cyan">③</span> &nbsp;Khách xem store → <span class="ok">pixel ghi nhận lượt xem</span> (gửi về App)</p>
+    </section>
+
     <!-- 2 -->
     <section class="slide">
       <p class="cmd">$ ./problem.sh</p>
@@ -189,19 +202,6 @@
       </ul>
 <pre class="ok">  ok  fb-pixel-mvp/internal/web        28 passed
   PixelEvent received from storefront: {"event":"page_viewed", ...}</pre>
-    </section>
-
-    <!-- 6b how-it-works -->
-    <section class="slide">
-      <p class="cmd">$ how-it-works</p>
-      <h2>App hoạt động thế nào</h2>
-<pre>  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-  │  <span class="hl">Merchant</span>   │ <span class="cyan">───▶</span> │     <span class="hl">App</span>     │ <span class="cyan">───▶</span> │ <span class="hl">Storefront</span>  │
-  │  (store)    │      │  (backend)  │      │  + pixel    │
-  └─────────────┘      └─────────────┘      └─────────────┘</pre>
-      <p><span class="cyan">①</span> &nbsp;Merchant cài app + nhập <span class="hl">Pixel ID</span></p>
-      <p><span class="cyan">②</span> &nbsp;App tự gắn pixel vào storefront</p>
-      <p><span class="cyan">③</span> &nbsp;Khách xem store → <span class="ok">pixel ghi nhận lượt xem</span> (gửi về App)</p>
     </section>
 
     <!-- 7 -->
