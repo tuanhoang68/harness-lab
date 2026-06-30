@@ -146,36 +146,36 @@
     <section class="slide">
       <p class="flow"><span class="on">INTAKE</span><span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
       <h2>Bước 1 · INTAKE</h2>
-      <p><span class="hl">LÀM GÌ:</span> yêu cầu thô (ý tưởng / doc / 1 dòng) → Spec chuẩn đạt <span class="hl">DoR</span> (User Story + Gherkin AC). Hỏi (option + lý do) cho đủ.</p>
-      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> nhốt mọi hỗn loạn đầu vào về <span class="hl">MỘT chuẩn</span> TRƯỚC khi code. Cổng chưa đủ mục bắt buộc → không cho đi tiếp.</p>
-      <p><span class="err">BỎ ĐI THÌ:</span> code mò theo yêu cầu mơ hồ → build sai, sửa lại tốn nhất.</p>
+      <p><span class="hl">LÀM GÌ:</span> yêu cầu thô → Spec chuẩn (<span class="hl">DoR</span>: User Story + Gherkin AC)</p>
+      <p><span class="cyan">TẠI SAO:</span> nhốt hỗn loạn về <span class="hl">1 chuẩn</span> TRƯỚC khi code</p>
+      <p><span class="err">BỎ ĐI:</span> code theo yêu cầu mơ hồ → build sai</p>
     </section>
 
     <!-- STEP-2 DECOMPOSE -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span><span class="on">DECOMPOSE</span><span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
       <h2>Bước 2 · DECOMPOSE <span class="cmt">(cấp app)</span></h2>
-      <p><span class="hl">LÀM GÌ:</span> chẻ App Spec (Epic) → nhiều <span class="hl">Feature Spec</span> nhỏ độc lập, mỗi cái tự qua DoR riêng.</p>
-      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> việc to khó kiểm soát; chia nhỏ để mỗi feature chạy pipeline riêng — gọn, kiểm được, song song được.</p>
-      <p><span class="err">BỎ ĐI THÌ:</span> ôm cả app build một cục → khó test, dễ ngợp, dễ sai.</p>
+      <p><span class="hl">LÀM GÌ:</span> App Spec → nhiều <span class="hl">Feature Spec</span> nhỏ độc lập</p>
+      <p><span class="cyan">TẠI SAO:</span> chia nhỏ để kiểm được, chạy song song</p>
+      <p><span class="err">BỎ ĐI:</span> build cả app 1 cục → khó test, dễ ngợp</p>
     </section>
 
     <!-- STEP-3 BUILD -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span><span class="on">BUILD</span><span class="sep">─▸</span>VERIFY</p>
       <h2>Bước 3 · BUILD <span class="cmt">(μ-build = TDD)</span></h2>
-      <p><span class="hl">LÀM GÌ:</span> mỗi Acceptance Criteria → viết <span class="hl">TEST TRƯỚC (RED)</span> → code tối thiểu (GREEN) → refactor. External (API…) → inject dependency để test offline.</p>
-      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> code có test, từng tiêu chí kiểm được; thấy test <span class="err">ĐỎ</span> trước mới chắc test thật sự kiểm cái gì.</p>
-      <p><span class="err">BỎ ĐI THÌ:</span> code không test = không tin được.</p>
+      <p><span class="hl">LÀM GÌ:</span> mỗi AC → <span class="hl">test TRƯỚC (RED)</span> → code (GREEN) → refactor</p>
+      <p><span class="cyan">TẠI SAO:</span> code có test, từng tiêu chí kiểm được</p>
+      <p><span class="err">BỎ ĐI:</span> code không test = không tin được</p>
     </section>
 
     <!-- STEP-4 VERIFY -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span><span class="on">VERIFY</span></p>
       <h2>Bước 4 · VERIFY</h2>
-      <p><span class="hl">LÀM GÌ:</span> chạy full test xanh + vet + (nếu được) <span class="hl">CHẠY THẬT</span> → đối chiếu <span class="hl">DoD</span>.</p>
-      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> "done" phải có <span class="hl">bằng chứng chạy được</span> — không tin lời. Đây là chỗ tách "agent thật" khỏi "đồ chơi".</p>
-      <p><span class="err">BỎ ĐI THÌ:</span> "tưởng xong" mà thật ra hỏng — phát hiện muộn, tốn gấp nhiều.</p>
+      <p><span class="hl">LÀM GÌ:</span> test xanh + <span class="hl">chạy thật</span> → đối chiếu <span class="hl">DoD</span></p>
+      <p><span class="cyan">TẠI SAO:</span> "done" cần bằng chứng, không tin lời</p>
+      <p><span class="err">BỎ ĐI:</span> "tưởng xong" mà hỏng → phát hiện muộn</p>
     </section>
 
     <!-- 6 -->
