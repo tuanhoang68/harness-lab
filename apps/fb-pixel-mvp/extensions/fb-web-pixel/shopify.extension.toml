@@ -1,0 +1,27 @@
+api_version = "2025-01"
+
+[[extensions]]
+type = "web_pixel_extension"
+name = "fb-web-pixel"
+handle = "fb-web-pixel"
+uid = "02572f2f-fd7b-39b2-dcd6-19944aa81e1cd2969425"
+runtime_context = "strict"
+
+  [extensions.customer_privacy]
+  analytics = true
+  marketing = true
+  preferences = false
+  sale_of_data = "enabled"
+
+  [extensions.settings]
+  type = "object"
+
+    [extensions.settings.fields.accountID]
+    name = "Account ID"
+    description = "Facebook Pixel ID"
+    type = "single_line_text_field"
+
+    [extensions.settings.fields.collectURL]
+    name = "Collect URL"
+    description = "Backend endpoint nhận event (https://<tunnel>/collect)"
+    type = "single_line_text_field"

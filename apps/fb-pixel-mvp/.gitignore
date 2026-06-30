@@ -1,0 +1,11 @@
+# Secrets & local config
+.env
+
+# Local DB
+*.db
+
+# Built binary
+/fb-pixel-mvp
+
+# Extension deps
+extensions/*/node_modules/

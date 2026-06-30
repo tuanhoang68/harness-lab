@@ -1,0 +1,21 @@
+# === Secrets & local config (KHÔNG commit) ===
+.env
+
+# === Databases (SQLite local) ===
+*.db
+
+# === Node deps ===
+node_modules/
+
+# === IDE / OS ===
+.idea/
+.DS_Store
+
+# === Go test artifacts ===
+*.test
+coverage.out
+
+# === Built binaries (cùng tên thư mục → loại theo path) ===
+engines/minimal-harness/minimal-harness
+engines/claude-harness/claude-harness
+apps/fb-pixel-mvp/fb-pixel-mvp

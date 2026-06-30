@@ -1,0 +1,25 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "1275b1e52cf004585713e1aa8527c13c"
+name = "fbpx-mvp"
+application_url = "https://voltage-prostate-unfortunately-explosion.trycloudflare.com/"
+embedded = false
+
+[build]
+
+[webhooks]
+api_version = "2026-04"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_pixels,read_customer_events"
+optional_scopes = [ ]
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = [
+  "https://voltage-prostate-unfortunately-explosion.trycloudflare.com/auth/callback"
+]
+
+[pos]
+embedded = false
