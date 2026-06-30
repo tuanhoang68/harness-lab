@@ -1,80 +1,87 @@
-# PLAN — Lộ trình xây harness-lab  *(bản đồ sống, cập nhật liên tục)*
+# PLAN — Lộ trình PHÁT TRIỂN HARNESS  *(harness-lab, bản đồ sống)*
 
-> Cập nhật: **2026-06-30**. Lý thuyết: [`knowledge/`](knowledge/) · Loại spec: [`glossary`](knowledge/glossary.md)
-> · App dogfood: [`apps/fb-pixel-mvp/`](apps/fb-pixel-mvp/).
+> Đây là kế hoạch phát triển **bản thân harness** (cỗ máy quy trình `/make`). Các app trong
+> [`apps/`](apps/) chỉ là **phép thử kiểm chứng** harness — KHÔNG phải nội dung của plan này.
+> Cập nhật: **2026-06-30** · Repo: https://github.com/tuanhoang68/harness-lab
 
 ## 🎯 Đích cuối
-**Meta-harness trên Claude Code**: gõ `/make` → harness phỏng vấn → chạy quy trình thống nhất
-(intake → [decompose] → build → verify) → ra feature/app **nhanh, đúng chuẩn, mọi lần như một**.
-Chứng minh bằng dogfood: build thật MVP Facebook Pixel (oracle `PremiUs/facebook-shopify-backend`).
-
-## 📊 Trạng thái tổng quan
-
-| Hạng mục | Trạng thái |
-|----------|-----------|
-| **HARNESS** — 3 template chuẩn (app/feature/design) + taxonomy | ✅ xong |
-| **HARNESS** — họ recipe `/make` · `/make-app` · `/make-feature` (codify) | ✅ xong |
-| **HARNESS** — test bộ skill (qua F4 dogfood) + promote ra `~/.claude/skills` | ✅ xong (symlink) |
-| **DOGFOOD** — App Spec + Design Doc + 3 Feature Spec (Ready) | ✅ xong |
-| **DOGFOOD** — code app (TDD) | ✅ **25 test xanh**, binary chạy |
-| **DOGFOOD** — F1 cài app OAuth | ✅ **LIVE trên store thật** |
-| **DOGFOOD** — F2 cấu hình Pixel | ✅ **LIVE** — webPixelCreate ok (web_pixel_id thật) |
-| **DOGFOOD** — F3 web pixel (🅐) | ✅ **LIVE** — extension deploy + storefront fire → backend nhận event |
-| **DOGFOOD** — F4 đọc Pixel ID (`GET /settings/pixel`) | ✅ **Done** — qua `/make-feature`, 3 test TDD + verify binary |
+Meta-harness trên Claude Code giúp dev/team code **tự động hơn · đáng tin hơn · nhất quán hơn**:
+gõ `/make` → ra feature/app đúng chuẩn, có test, **ít cần người đứng ở vòng lặp lặp lại**.
 
 ## 🧭 Nguyên tắc xuyên suốt
-- **Tay trước, codify sau** · **Từng bước có checkpoint** · **Bằng chứng thực nghiệm** (`experiments/`).
+Tay trước–codify sau · Từng bước có checkpoint · Bằng chứng thực nghiệm · Hỏi có cấu trúc (option+lý do).
 
-## 🗺️ Các vòng
+## 🪜 Thang trưởng thành (xương sống)
 
 ```
-   ✅ V1 Nền móng        khung lab · lý thuyết · 3 template · taxonomy
-   ✅ V2 Intake          B1–B7 phỏng vấn tay → App Spec Ready  (codify /intake riêng: tùy chọn)
-   ✅ V3 Decompose       App Spec → F1/F2/F3, đều Ready (Gherkin AC)
-   ✅ V4 Build           μ-build TDD cho F1/F2/F3 → 25 test xanh, binary chạy
-   ✅ V5 Recipe          /make · /make-app · /make-feature codify  ( hook fmt/test: chưa )
-   ✅ V6 Dogfood        F1 install LIVE · F2 webPixelCreate LIVE · F3 🅐 web pixel fire storefront LIVE
-                        → MVP 3 feature CHẠY THẬT end-to-end trên store tuanhoangpc-2 🎉
+   L1 ✅ METHODOLOGY    quy trình + template + recipe /make*   (gate THỦ CÔNG, verify TAY)  ◀ ĐANG Ở ĐÂY
+   L2 ▢  AUTOMATION     hooks tự test/verify · recipe tự chạy chuỗi · μ-design/verify/review
+   L3 ▢  RELIABILITY    adversarial verify · DoD auto-check · regression net · guardrails
+   L4 ▢  TEAM SCALE     PR/CI · shared conventions · parallel fan-out · onboarding
+   L5 ▢  SELF-IMPROVING đo metrics · vòng RED→GREEN tự mài skill · harness học từ dự án
+```
+> Hiện harness đã chứng minh **quy trình đúng** (L1) nhưng *người vẫn đứng mọi cổng* + *verify do người chạy tay*.
+> Hành trình tới = đẩy người ra khỏi vòng lặp (L2) → thêm lưới an toàn (L3) → nhân cho team (L4) → tự cải tiến (L5).
+
+## ✅ ĐÃ LÀM — L1 nền móng
+- **Họ recipe** `/make · /make-app · /make-feature` — codify, **promote `~/.claude/skills`** (gõ mọi phiên).
+- **3 template chuẩn** (App/Feature/Design) + **taxonomy/glossary** + cổng **DoR/DoD**.
+- Kỷ luật **μ-build = TDD-từ-AC** · dependency-injection để test offline.
+- Intake **hỏi có cấu trúc** (AskUserQuestion + option + lý do).
+
+## 🧪 ĐÃ KIỂM CHỨNG (dogfood — bằng chứng L1 chạy thật)
+- [`apps/fb-pixel-mvp`](apps/fb-pixel-mvp): Shopify FB Pixel app build hoàn toàn qua harness —
+  **28 test TDD**, F1–F3 **chạy LIVE** trên store thật.
+- **Harness "tự lái":** F4 do **agent trắng context** tự build chỉ bằng `/make-feature`.
+- Chi tiết: [`experiments/exp-001-…`](experiments/exp-001-intake-fb-pixel/) · [`SUBMISSION.md`](SUBMISSION.md).
+
+## 🔄 KẾ TIẾP NGAY (nợ đã lộ ra trong lúc build)
+- [ ] **μ-design** codify — pipeline thiếu stage "đẻ Design Doc" (đang làm tay).
+- [ ] **/intake** riêng — chạy 1 viên, router suy ngữ cảnh.
+- [ ] Nợ nhỏ: F2 verify live (UI embedded) · 🅑 CAPI nếu cần tới Events Manager.
+
+## 🚀 ROADMAP — 3 trục
+
+### Trục 1 · TỰ ĐỘNG HƠN (L2) — đẩy người ra khỏi vòng lặp
+- [ ] **① HOOKS** *(đòn bẩy lớn nhất, rẻ nhất)* — post-Edit `.go` → tự `fmt+vet+test`; chặn "done" khi test đỏ.
+- [ ] **② μ-verify / μ-review codify** — build xong tự chạy test + subagent review → nổi findings.
+- [ ] **③ Recipe tự chạy chuỗi** — `/make-app` loop thật: decompose → build từng feature, ít gate tay.
+
+### Trục 2 · ĐÁNG TIN HƠN (L3) — lưới an toàn
+- [ ] **④ Adversarial verify** — subagent phản biện cố BÁC BỎ mỗi AC/finding → giảm sai.
+- [ ] **⑤ DoD auto-check** — máy kiểm mọi Acceptance Criteria pass mới cho đóng "Done".
+- [ ] **⑥ Regression net + guardrails** — tích lũy test chạy mọi thay đổi; permission cho thao tác nguy hiểm.
+
+### Trục 3 · GIÚP TEAM DEV (L4) — 1 người → cả team
+- [ ] **⑦ PR/CI integration** — recipe tự mở PR kèm Feature Spec + test + tóm tắt; DoD = CI gate.
+- [ ] **⑧ Shared conventions** — CLAUDE.md/AGENTS.md cấp team; harness ép chuẩn chung.
+- [ ] **⑨ Parallel fan-out** — nhiều agent build nhiều feature song song.
+- [ ] **⑩ Onboarding tức thì** — dev/agent mới đọc glossary+PLAN là chạy (đã chứng minh qua F4).
+
+### L5 · TỰ CẢI TIẾN
+- [ ] **⑪ Đo metrics** — cycle-time · coverage · tỷ lệ rework → chứng minh harness tăng hiệu suất bao nhiêu.
+- [ ] **⑫ Vòng RED→GREEN tự động** — test skill bằng subagent định kỳ → tự lộ lỗ hổng → tự vá.
+
+## 🎯 Thứ tự đề xuất (đòn bẩy cao trước)
+```
+   1) HOOKS ①          rẻ · tự động + đáng tin ngay · dùng mỗi ngày
+   2) μ-verify+review ② khép vòng build→verify tự động
+   3) PR/CI ⑦          mở đường lên team
+   4) Đo metrics ⑪      có số liệu chứng minh giá trị
+   … rồi adversarial / parallel / self-improving khi cần độ tin & quy mô cao hơn
 ```
 
-## 📍 Đang ở đây
-**🎉 MVP FB Pixel CHẠY THẬT end-to-end** trên store `tuanhoangpc-2.myshopify.com`:
-- F1 OAuth install LIVE (token `shpua_…`) · F2+F3: `shopify app deploy` (fbpx-mvp-6) →
-  re-install (scope `write_pixels`) → save pixel → `webPixelCreate` LIVE (web_pixel_id thật) →
-  browse storefront → backend nhận `page_viewed` (trang chủ + sản phẩm).
-- Tiện ích: `.env` (godotenv) + `sync-tunnel.sh` (sync URL vào .env + shopify.app.toml).
-- Còn lại (tùy chọn): test+promote bộ skill `/make*` · 🅑 CAPI→Events Manager (ngoài MVP) ·
-  F2 UI embedded · dọn (tắt backend/tunnel, gỡ web pixel/app khỏi store khi xong).
+## 🔎 Phát hiện kiến trúc (rút ra khi build)
+- Pipeline cần stage **μ-design** (đẻ Design Doc) giữa decompose ↔ build.
+- **μ-build = đọc Feature Spec AC → TDD từng AC verify-offline → external thì inject dependency.**
+- Recipe nên đặt tên theo **chức năng** (μ-*), "Ready/Done" = **trạng thái** không phải loại spec.
 
-## ⏳ Việc còn lại
-```
-   CẦN USER (browser/CLI, không tự động được):
-     P1 deploy extension (shopify auth login + app deploy)
-     P2 re-install app (scope write_pixels)        P3 browse storefront → verify event
-   HARNESS (tự làm tiếp được):
-     • test bộ skill /make* trên case mới + promote ~/.claude/skills
-     • codify stage μ-design + /intake + hook gate (fmt/test)
-   NGOÀI MVP:
-     • 🅑 CAPI → PageView tới Facebook Events Manager (cần FB access token)
-     • F2 nghiệm thu live (UI embedded nhập Pixel ID)
-```
-
-## 🔎 Phát hiện kiến trúc (trong quá trình build)
-- Pipeline cần thêm stage **μ-design** (đẻ Design Doc) giữa decompose ↔ build → sẽ codify.
-- **μ-build = đọc Feature Spec AC → TDD từng AC verify-offline-được → external thì inject dependency.**
-- **R1 xác minh:** web pixel sandbox "strict" không load fbq client-side → chỉ fetch server-side
-  (DoD F3 điều chỉnh sang 🅐 trung thực).
-
-## 🎮 Thao tác user khi harness đã codify (đích UX)
-Thay ~14 lượt chat tay (như exp-001) bằng: `/make-app "<việc>"` → trả lời 2 câu router →
-duyệt App Spec ("gật"/"sửa §X") → duyệt decompose. User chỉ **cung cấp sự thật domain + duyệt cổng**;
-harness lo phần lặp lại (hỏi đúng thứ tự · soạn nháp · check DoR · chẻ feature · TDD).
+## 🎮 Đích UX (khi harness codify đủ)
+`/make "<việc>"` → trả lời ~2 câu router → duyệt spec ("gật"/"sửa §X") → duyệt decompose.
+User chỉ **cung cấp sự thật domain + duyệt cổng**; harness lo phần lặp lại.
 
 ## 📒 Nhật ký quyết định
-- **2026-06-28:** trọng tâm `meta/`, `engines/` để dành · case dogfood = MVP FB Pixel (oracle PremiUs)
-  · tách App Spec (PRD) ⇄ Design Doc (TDD) · trigger `/make` (Anh) · "Ready/Done"=trạng-thái.
-- **2026-06-30:** Bậc 1 OAuth install LIVE (cloudflared) · R1 xác minh → F3 chọn 🅐 (không CAPI)
-  · nâng node 22 qua nvm cho Shopify CLI 4.3 · backend Bậc 2 verify bằng giả lập storefront.
-- **2026-06-30:** **F4** (`GET /settings/pixel`, đọc đối xứng F2) dogfood `/make-feature` thật:
-  intake→spec Ready→TDD (RED 3 test→GREEN)→verify binary cổng 8100 (tránh `fbpx-live` 8099).
-  Spec: [`feature-specs/f4-get-pixel.md`](experiments/exp-001-intake-fb-pixel/feature-specs/f4-get-pixel.md).
+- **2026-06-28:** trọng tâm `meta/`; tách App Spec (PRD) ⇄ Design Doc (TDD); trigger `/make`; "Ready/Done"=trạng-thái.
+- **2026-06-30 (kiểm chứng):** dogfood FB Pixel — F1–F3 LIVE · R1 xác minh (sandbox không fbq → 🅐) · F4 agent tự build.
+- **2026-06-30 (identity):** **KHÔNG đánh tráo** — dự án = harness-lab; app/đồ-án chỉ là phép thử. README mô tả lab, demo để `SUBMISSION.md`.
+- **2026-06-30 (roadmap):** chốt thang trưởng thành L1→L5 + 3 trục; đòn bẩy kế tiếp = **Hooks**.
