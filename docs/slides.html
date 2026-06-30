@@ -71,6 +71,8 @@
   td{padding:3px 16px 3px 0;vertical-align:top}
   td.k{color:var(--yellow);white-space:nowrap}
   td.v{color:var(--fg)}
+  .cmp td{padding:8px 48px 8px 0;vertical-align:top;font-size:17px}
+  .cmp tr:first-child td{font-weight:700;border-bottom:1px solid var(--line);padding-bottom:10px}
   .big{font-size:19px}
   .cur{display:inline-block;width:10px;height:20px;background:var(--green2);
     vertical-align:-3px;margin-left:4px;animation:blink 1s steps(1) infinite}
@@ -112,13 +114,14 @@
 
     <!-- 2 -->
     <section class="slide">
-      <p class="cmd">$ ./problem.sh</p>
-      <h2>Vấn đề</h2>
-      <ul>
-        <li><span class="err">✗</span> Code với AI = <span class="hl">prompt lặp đi lặp lại</span>, mỗi lần một kiểu</li>
-        <li><span class="err">✗</span> Hay quên bước · khó kiểm soát · khó tin kết quả</li>
-        <li><span class="arr">→</span> Cần <span class="b">QUY TRÌNH thống nhất</span> bọc quanh AI, không phải prompt rời rạc</li>
-      </ul>
+      <p class="cmd">$ diff  trước-harness  sau-harness</p>
+      <h2>Trước &amp; sau khi học harness</h2>
+      <table class="cmp">
+        <tr><td class="err">TRƯỚC harness</td><td class="ok">SAU harness</td></tr>
+        <tr><td><span class="err">✗</span> prompt lặp đi lặp lại</td><td><span class="ok">✓</span> gõ /make → quy trình thống nhất</td></tr>
+        <tr><td><span class="err">✗</span> mỗi lần một kiểu, hay quên</td><td><span class="ok">✓</span> template + cổng → mọi lần như một</td></tr>
+        <tr><td><span class="err">✗</span> khó tin kết quả</td><td><span class="ok">✓</span> có test, verify bằng bằng chứng</td></tr>
+      </table>
     </section>
 
     <!-- 3 -->
