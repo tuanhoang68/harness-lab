@@ -1,95 +1,87 @@
-# harness-lab — Đồ án tốt nghiệp
+# harness-lab
 
-**Meta-harness trên Claude Code** (quy trình tự động hóa việc code) **+ một Shopify App
-build bằng chính harness đó** và **chạy LIVE thật trên store**.
+Phòng thí nghiệm **harness engineering với Claude** — nghiên cứu & xây dựng mọi thứ
+*bao quanh* Claude Code (recipe, contract, quy trình) để **tự động hóa việc code**:
+nhanh nhất có thể, quy trình thống nhất, không phải prompt đơn điệu lặp đi lặp lại.
 
-> Không chỉ là 1 Shopify app — mà là *cỗ máy quy trình* (`/make`) đẻ ra app đó, có test,
-> đúng chuẩn, mọi lần như một. App `fb-pixel-mvp` là **bằng chứng** harness hoạt động.
+> Sản phẩm của lab **không phải một app cụ thể** — mà là *cỗ máy quy trình* (`/make`),
+> bộ *chuẩn* (contracts) và *phương pháp luận* để đẻ ra app/feature đúng chuẩn, có test,
+> mọi lần như một. Các app trong `apps/` chỉ là **phép thử (dogfood)** để kiểm chứng lab.
 
----
+> 🧭 Lộ trình & vị trí hiện tại: [`PLAN.md`](PLAN.md) (bản đồ sống).
 
-## 🏆 Kết quả nổi bật
-
-```
-   • Shopify Facebook Pixel App — 3 feature CHẠY LIVE THẬT trên store tuanhoangpc-2:
-       F1 cài app (OAuth)         → token thật lưu DB
-       F2 cấu hình Pixel ID       → webPixelCreate thật (web_pixel_id gid://shopify/WebPixel/…)
-       F3 nhúng Web Pixel         → storefront fire page_viewed → backend nhận event thật
-   • 28 unit test (TDD RED→GREEN) · go vet sạch · binary chạy được
-   • F4 (đọc Pixel ID) do MỘT AGENT KHÁC tự build qua /make-feature — chứng minh harness "tự lái"
-   • Harness tái dùng: /make · /make-app · /make-feature (skill ở meta/.claude/skills)
-```
-
----
-
-## 🎤 Trình bày ngắn (6 mục theo đề bài)
-
-**1. Mục tiêu của app**
-App `fb-pixel-mvp`: cho merchant Shopify gắn 1 Facebook Pixel vào storefront để thu event
-(PageView) **trong vài phút, không phải sửa code theme**.
-
-**2. Kiến thức khóa học đã áp dụng** *(→ bằng chứng trong repo)*
-
-| Kiến thức | Bằng chứng |
-|-----------|-----------|
-| Planning | [`PLAN.md`](PLAN.md) — bản đồ sống, cập nhật liên tục |
-| CLAUDE.md / context cho AI | [`CLAUDE.md`](CLAUDE.md) — luật project cho Claude |
-| Harness workflow | `meta/.claude/skills/` — recipe `/make · /make-app · /make-feature` |
-| Prompt/context engineering | [`contracts/`](contracts/) (template chuẩn) + [`knowledge/glossary.md`](knowledge/glossary.md) |
-| Delegation | **F4**: agent trắng context tự build feature qua skill ([f4](experiments/exp-001-intake-fb-pixel/feature-specs/f4-get-pixel.md)) |
-| Verification | F1–F3 nghiệm thu **LIVE** trên store thật (curl / log / DB) |
-| Testing | 28 test TDD ([apps/fb-pixel-mvp](apps/fb-pixel-mvp)) — viết test trước (RED) → code (GREEN) |
-| Guardrails | Cổng DoR/DoD · verify HMAC · chống open-redirect · dependency-injection để test offline |
-
-**3. AI đã hỗ trợ phần nào**
-Gần như **toàn bộ pipeline**: phỏng vấn lấp spec → Design Doc → decompose feature → viết code
-theo TDD → deploy Shopify CLI → debug. Con người (mình) đóng vai **domain expert + duyệt cổng**;
-harness lo phần lặp lại.
-
-**4. Kết quả đạt được**
-App 3 feature chạy LIVE end-to-end trên store thật + 1 feature do agent tự build + một bộ
-harness tái dùng được + tài liệu quy trình đầy đủ.
-
-**5. Khó khăn & cách xử lý**
-- **R1**: Web Pixel sandbox "strict" KHÔNG load được `fbq` client-side → **điều chỉnh DoD
-  trung thực** sang phương án fetch event về backend (🅐), thay vì giả vờ.
-- **Node cũ** không chạy Shopify CLI mới → cài node 22 qua **nvm** (không sudo).
-- **Tunnel đổi URL** mỗi lần → viết `sync-tunnel.sh` đồng bộ tự động.
-
-**6. Bài học**
-- Harness = **bộ khung + kỷ luật** giúp việc-làm-tay ra chuẩn; rồi **codify** thành tự động.
-- **Tay trước, codify sau** · **verify bằng bằng chứng thật**, không tin suông.
-- Test một skill còn **tự mài sắc chính skill** (vòng RED→GREEN: phát hiện hỏi trống → ép
-  dùng câu hỏi có option + lý do).
-
----
-
-## 🗺️ Mô hình & bản đồ repo
+## Mô hình 3 tầng
 
 ```
-   TẦNG 3 META-HARNESS CỦA TA   ← repo này
-     └ bọc quanh → TẦNG 2 CLAUDE CODE → TẦNG 1 MODEL
+┌───────────────────────────────────────────────────────┐
+│  TẦNG 3 — META-HARNESS CỦA TA   ◀── lab này nghiên cứu │
+│  quy trình thống nhất bọc quanh Claude Code            │
+│   ┌───────────────────────────────────────────────┐   │
+│   │  TẦNG 2 — CLAUDE CODE (Anthropic đã xây)       │   │
+│   │   ┌─────────────────────────────────────────┐  │   │
+│   │   │  TẦNG 1 — MODEL (Claude Opus)           │  │   │
+│   │   └─────────────────────────────────────────┘  │   │
+│   └───────────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────┘
+```
+
+## Lab tạo ra cái gì (sản phẩm thật của dự án)
+
+- **Họ recipe** (`meta/.claude/skills/`): `/make` · `/make-app` · `/make-feature` — gõ 1
+  lệnh, harness tự dẫn `intake → [decompose] → build → verify`.
+- **3 template spec chuẩn** ([`contracts/`](contracts/)): App Spec (PRD) · Feature Spec
+  (User Story+Gherkin) · Design Doc (TDD) — ráp từ chuẩn ngành.
+- **Kiến thức chung** ([`knowledge/`](knowledge/)): nguyên lý, từ điển spec (glossary), kiến trúc.
+
+## Nguyên lý cốt lõi
+
+> **Cố định contract, thay solver.** Kiến trúc không đổi; đổi bài toán = đổi *người giải*
+> + *đường đi*. Micro-harness nối qua contract (toolkit, không monolith).
+
+Chi tiết: [`knowledge/principles.md`](knowledge/principles.md) · [`knowledge/architecture.md`](knowledge/architecture.md).
+
+## Bản đồ lab
+
+```
+        knowledge/  +  contracts/        ← lý thuyết + cổng chuẩn (dùng chung)
+               │
+               ▼
+        ┌──────────────┐
+        │    meta/     │   ★ TRỌNG TÂM: meta-harness trên Claude Code (recipe + solvers)
+        └──────┬───────┘
+               │ chạy quy trình meta để build
+               ▼
+        ┌──────────────┐
+        │    apps/     │   ◀── ĐẦU RA dogfood: app build thật để CHỨNG MINH harness chạy
+        └──────────────┘
+
+        ┌──────────────┐
+        │   engines/   │   💤 nhánh A (để dành): harness tự xây bằng Go
+        └──────────────┘
 ```
 
 | Thư mục | Vai trò |
 |---------|---------|
-| [`knowledge/`](knowledge/) | Lý thuyết · nguyên lý · từ điển spec (glossary) |
-| [`contracts/`](contracts/) | Template 3 loại spec: App Spec · Feature Spec · Design Doc |
-| [`meta/`](meta/) | ★ Harness: skills `/make·/make-app·/make-feature` |
-| [`apps/fb-pixel-mvp/`](apps/fb-pixel-mvp/) | **Shopify app** build bằng harness (chạy LIVE) |
-| [`experiments/`](experiments/) | Nhật ký build app (App Spec · Design Doc · Feature Specs F1–F4) |
-| [`engines/`](engines/) | 💤 Nhánh A để dành: harness tự xây bằng Go |
+| [`meta/`](meta/) | ★ Trọng tâm — meta-harness: recipe `/make*` + solvers |
+| [`contracts/`](contracts/) | Template 3 loại spec chuẩn (cổng giữa các bước) |
+| [`knowledge/`](knowledge/) | Lý thuyết · nguyên lý · từ điển spec ([glossary](knowledge/glossary.md)) · ADR |
+| [`apps/`](apps/) | **Phép thử (dogfood)** — app build bằng lab để kiểm chứng harness |
+| [`experiments/`](experiments/) | Nhật ký mỗi lần thử: input → output → nhận xét |
+| [`engines/`](engines/) | 💤 Để dành — nhánh A: harness tự xây bằng Go |
 
-## ▶️ Chạy thử app (zero-setup)
-```bash
-cd apps/fb-pixel-mvp
-cp .env.example .env      # điền creds nếu chạy OAuth thật
-go test ./...             # 28 test xanh
-go run .                  # server :8099 (đọc .env)
-```
-Chạy LIVE trên Shopify thật: xem [`apps/fb-pixel-mvp/RUN-LIVE.md`](apps/fb-pixel-mvp/RUN-LIVE.md)
-và [`RUN-LIVE-BAC2.md`](apps/fb-pixel-mvp/RUN-LIVE-BAC2.md).
+## Phép thử đã chạy (kiểm chứng lab hoạt động)
 
-## Nguyên lý cốt lõi
-> **Cố định contract, thay solver.** Kiến trúc không đổi; đổi bài toán = đổi người giải.
-> Chi tiết: [`knowledge/principles.md`](knowledge/principles.md) · [`architecture.md`](knowledge/architecture.md).
+- [`apps/fb-pixel-mvp`](apps/fb-pixel-mvp) — Shopify Facebook Pixel app, build hoàn toàn
+  qua quy trình của lab: **28 test TDD**, 3 feature **chạy LIVE thật** trên store.
+- **Test "harness tự lái":** feature F4 do **một agent khác (context trắng)** tự build chỉ
+  bằng skill `/make-feature` — chứng minh recipe đủ để tái lập quy trình.
+- *(Phép thử này cũng được dùng làm đồ án tốt nghiệp khóa học — ghi chú demo:
+  [`SUBMISSION.md`](SUBMISSION.md). Đó là một **ứng dụng** của lab, không phải bản thân lab.)*
+
+## Trạng thái
+
+- [x] Nền móng: khung lab + lý thuyết + 3 template chuẩn + taxonomy
+- [x] Họ recipe `/make · /make-app · /make-feature` codify (đã chứng minh tự lái qua F4)
+- [x] Promote skill ra `~/.claude/skills` (symlink)
+- [x] Dogfood `apps/fb-pixel-mvp` — 28 test, F1–F3 LIVE, F4 do agent build
+- [ ] Codify stage `μ-design` + `/intake` riêng · hook gate (fmt/test)
