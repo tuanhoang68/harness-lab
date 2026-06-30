@@ -139,6 +139,42 @@
       </ul>
     </section>
 
+    <!-- TT-1 -->
+    <section class="slide">
+      <p class="cmd">$ why --principle 1</p>
+      <h2>Tư tưởng #1 — Cố định contract, thay solver</h2>
+      <p><span class="err">VẤN ĐỀ:</span> bài toán đổi liên tục (Go/React · doc xịn/doc rác). Mỗi lần xây lại quy trình → mệt, mỗi lần một kiểu, hay sai.</p>
+      <p><span class="arr">TƯ TƯỞNG:</span> khung (các Ô + Cổng) <span class="hl">BẤT BIẾN</span>; chỉ đổi <span class="hl">"người giải"</span> cắm vào ô. → đổi bài toán = đổi người giải, KHÔNG đổi kiến trúc.</p>
+      <p><span class="ok">HỆ QUẢ:</span> tùy biến vô hạn · nhất quán · tái dùng · dễ mở rộng.</p>
+    </section>
+
+    <!-- TT-2 -->
+    <section class="slide">
+      <p class="cmd">$ why --principle 2</p>
+      <h2>Tư tưởng #2 — Nhốt hỗn loạn ở cổng đầu (DoR)</h2>
+      <p><span class="err">VẤN ĐỀ:</span> code khi spec chưa rõ = build sai → sửa lại tốn <span class="hl">NHẤT</span>.</p>
+      <p><span class="arr">TƯ TƯỞNG:</span> mọi đầu vào hỗn loạn bị <span class="hl">ép về một spec chuẩn (Ready)</span> ngay cổng đầu. Cổng chưa đủ (thiếu mục bắt buộc) → KHÔNG cho xuống build.</p>
+      <p><span class="ok">HỆ QUẢ:</span> <span class="quote">"1 giờ làm rõ spec tiết kiệm 10 giờ sửa code."</span> Phần build/verify sống trong thế giới sạch.</p>
+    </section>
+
+    <!-- TT-3 -->
+    <section class="slide">
+      <p class="cmd">$ why --principle 3</p>
+      <h2>Tư tưởng #3 — Tay trước, codify sau</h2>
+      <p><span class="err">VẤN ĐỀ:</span> tự động hóa một quy trình <span class="hl">chưa từng đi</span> = tự động hóa cái sai.</p>
+      <p><span class="arr">TƯ TƯỞNG:</span> làm bằng <span class="hl">TAY một lần</span> để hiểu thật → RỒI mới đóng gói thành skill. Skill = chép lại việc đã làm → chắc tay, không đoán mò.</p>
+      <p><span class="ok">BẰNG CHỨNG:</span> <span class="key">/make-feature</span> được chưng cất từ chính lần build F1–F3 bằng tay.</p>
+    </section>
+
+    <!-- TT-4 -->
+    <section class="slide">
+      <p class="cmd">$ why --principle 4</p>
+      <h2>Tư tưởng #4 — Tin bằng chứng, không tin lời</h2>
+      <p><span class="err">VẤN ĐỀ:</span> AI (và người) hay <span class="hl">"tưởng là xong"</span>. Tưởng ≠ chạy được.</p>
+      <p><span class="arr">TƯ TƯỞNG:</span> mỗi tuyên bố "done" phải có <span class="hl">bằng chứng chạy được</span> — test xanh · log thật · store thật. TDD = thấy test ĐỎ trước mới tin nó kiểm thật.</p>
+      <p><span class="ok">HỆ QUẢ:</span> đáng tin = tách <span class="hl">"agent thật"</span> khỏi "đồ chơi".</p>
+    </section>
+
     <!-- 6 -->
     <section class="slide">
       <p class="cmd">$ go test ./...   <span class="cmt"># ▶ DEMO</span></p>
