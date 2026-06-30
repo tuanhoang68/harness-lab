@@ -59,6 +59,9 @@
   h2{font-size:23px;margin:4px 0 14px;color:var(--cyan);font-weight:700}
   .cmt{color:var(--dim)}
   .ok{color:var(--green)} .err{color:var(--red)} .arr{color:var(--cyan)} .cyan{color:var(--cyan)}
+  .flow{font-size:14px;letter-spacing:.5px;margin:2px 0 20px;color:#6e7681}
+  .flow .on{color:#0d1117;background:var(--cyan);padding:3px 12px;border-radius:5px;font-weight:700}
+  .flow .sep{color:#30363d;margin:0 8px}
   .hl{color:var(--yellow)} .key{color:var(--purple)} .b{color:#fff}
   ul{margin:8px 0;padding-left:0;list-style:none}
   li{margin:7px 0;padding-left:22px;position:relative}
@@ -139,40 +142,40 @@
       </ul>
     </section>
 
-    <!-- TT-1 -->
+    <!-- STEP-1 INTAKE -->
     <section class="slide">
-      <p class="cmd">$ why --principle 1</p>
-      <h2>Tư tưởng #1 — Cố định contract, thay solver</h2>
-      <p><span class="err">VẤN ĐỀ:</span> bài toán đổi liên tục (Go/React · doc xịn/doc rác). Mỗi lần xây lại quy trình → mệt, mỗi lần một kiểu, hay sai.</p>
-      <p><span class="arr">TƯ TƯỞNG:</span> khung (các Ô + Cổng) <span class="hl">BẤT BIẾN</span>; chỉ đổi <span class="hl">"người giải"</span> cắm vào ô. → đổi bài toán = đổi người giải, KHÔNG đổi kiến trúc.</p>
-      <p><span class="ok">HỆ QUẢ:</span> tùy biến vô hạn · nhất quán · tái dùng · dễ mở rộng.</p>
+      <p class="flow"><span class="on">INTAKE</span><span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
+      <h2>Bước 1 · INTAKE</h2>
+      <p><span class="hl">LÀM GÌ:</span> yêu cầu thô (ý tưởng / doc / 1 dòng) → Spec chuẩn đạt <span class="hl">DoR</span> (User Story + Gherkin AC). Hỏi (option + lý do) cho đủ.</p>
+      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> nhốt mọi hỗn loạn đầu vào về <span class="hl">MỘT chuẩn</span> TRƯỚC khi code. Cổng chưa đủ mục bắt buộc → không cho đi tiếp.</p>
+      <p><span class="err">BỎ ĐI THÌ:</span> code mò theo yêu cầu mơ hồ → build sai, sửa lại tốn nhất.</p>
     </section>
 
-    <!-- TT-2 -->
+    <!-- STEP-2 DECOMPOSE -->
     <section class="slide">
-      <p class="cmd">$ why --principle 2</p>
-      <h2>Tư tưởng #2 — Nhốt hỗn loạn ở cổng đầu (DoR)</h2>
-      <p><span class="err">VẤN ĐỀ:</span> code khi spec chưa rõ = build sai → sửa lại tốn <span class="hl">NHẤT</span>.</p>
-      <p><span class="arr">TƯ TƯỞNG:</span> mọi đầu vào hỗn loạn bị <span class="hl">ép về một spec chuẩn (Ready)</span> ngay cổng đầu. Cổng chưa đủ (thiếu mục bắt buộc) → KHÔNG cho xuống build.</p>
-      <p><span class="ok">HỆ QUẢ:</span> <span class="quote">"1 giờ làm rõ spec tiết kiệm 10 giờ sửa code."</span> Phần build/verify sống trong thế giới sạch.</p>
+      <p class="flow">INTAKE<span class="sep">─▸</span><span class="on">DECOMPOSE</span><span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
+      <h2>Bước 2 · DECOMPOSE <span class="cmt">(cấp app)</span></h2>
+      <p><span class="hl">LÀM GÌ:</span> chẻ App Spec (Epic) → nhiều <span class="hl">Feature Spec</span> nhỏ độc lập, mỗi cái tự qua DoR riêng.</p>
+      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> việc to khó kiểm soát; chia nhỏ để mỗi feature chạy pipeline riêng — gọn, kiểm được, song song được.</p>
+      <p><span class="err">BỎ ĐI THÌ:</span> ôm cả app build một cục → khó test, dễ ngợp, dễ sai.</p>
     </section>
 
-    <!-- TT-3 -->
+    <!-- STEP-3 BUILD -->
     <section class="slide">
-      <p class="cmd">$ why --principle 3</p>
-      <h2>Tư tưởng #3 — Tay trước, codify sau</h2>
-      <p><span class="err">VẤN ĐỀ:</span> tự động hóa một quy trình <span class="hl">chưa từng đi</span> = tự động hóa cái sai.</p>
-      <p><span class="arr">TƯ TƯỞNG:</span> làm bằng <span class="hl">TAY một lần</span> để hiểu thật → RỒI mới đóng gói thành skill. Skill = chép lại việc đã làm → chắc tay, không đoán mò.</p>
-      <p><span class="ok">BẰNG CHỨNG:</span> <span class="key">/make-feature</span> được chưng cất từ chính lần build F1–F3 bằng tay.</p>
+      <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span><span class="on">BUILD</span><span class="sep">─▸</span>VERIFY</p>
+      <h2>Bước 3 · BUILD <span class="cmt">(μ-build = TDD)</span></h2>
+      <p><span class="hl">LÀM GÌ:</span> mỗi Acceptance Criteria → viết <span class="hl">TEST TRƯỚC (RED)</span> → code tối thiểu (GREEN) → refactor. External (API…) → inject dependency để test offline.</p>
+      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> code có test, từng tiêu chí kiểm được; thấy test <span class="err">ĐỎ</span> trước mới chắc test thật sự kiểm cái gì.</p>
+      <p><span class="err">BỎ ĐI THÌ:</span> code không test = không tin được.</p>
     </section>
 
-    <!-- TT-4 -->
+    <!-- STEP-4 VERIFY -->
     <section class="slide">
-      <p class="cmd">$ why --principle 4</p>
-      <h2>Tư tưởng #4 — Tin bằng chứng, không tin lời</h2>
-      <p><span class="err">VẤN ĐỀ:</span> AI (và người) hay <span class="hl">"tưởng là xong"</span>. Tưởng ≠ chạy được.</p>
-      <p><span class="arr">TƯ TƯỞNG:</span> mỗi tuyên bố "done" phải có <span class="hl">bằng chứng chạy được</span> — test xanh · log thật · store thật. TDD = thấy test ĐỎ trước mới tin nó kiểm thật.</p>
-      <p><span class="ok">HỆ QUẢ:</span> đáng tin = tách <span class="hl">"agent thật"</span> khỏi "đồ chơi".</p>
+      <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span><span class="on">VERIFY</span></p>
+      <h2>Bước 4 · VERIFY</h2>
+      <p><span class="hl">LÀM GÌ:</span> chạy full test xanh + vet + (nếu được) <span class="hl">CHẠY THẬT</span> → đối chiếu <span class="hl">DoD</span>.</p>
+      <p><span class="cyan">TẠI SAO CÓ BƯỚC NÀY:</span> "done" phải có <span class="hl">bằng chứng chạy được</span> — không tin lời. Đây là chỗ tách "agent thật" khỏi "đồ chơi".</p>
+      <p><span class="err">BỎ ĐI THÌ:</span> "tưởng xong" mà thật ra hỏng — phát hiện muộn, tốn gấp nhiều.</p>
     </section>
 
     <!-- 6 -->
