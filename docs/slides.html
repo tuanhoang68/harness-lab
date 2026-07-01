@@ -3,79 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>harness-lab — slides</title>
+<title>harness + mvp — slides</title>
 <style>
   :root{
     --bg:#07090d; --term:#0d1117; --bar:#161b22; --line:#21262d;
     --fg:#c9d1d9; --dim:#8b949e; --green:#3fb950; --green2:#56d364;
-    --cyan:#39c5cf; --blue:#58a6ff; --yellow:#e3b341; --red:#f85149;
-    --purple:#bc8cff;
+    --cyan:#39c5cf; --blue:#58a6ff; --yellow:#e3b341; --red:#f85149; --purple:#bc8cff;
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   body{
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #0f1620 0%, var(--bg) 60%);
+    background:radial-gradient(1200px 600px at 50% -10%, #0f1620 0%, var(--bg) 60%);
     color:var(--fg);
     font-family:"JetBrains Mono","Fira Code","Cascadia Code","DejaVu Sans Mono","Courier New",monospace;
-    display:flex;align-items:center;justify-content:center;
-    overflow:hidden;user-select:none;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;user-select:none;
   }
   .term{
     width:min(1040px,94vw);height:min(660px,90vh);
     background:var(--term);border:1px solid var(--line);border-radius:10px;
-    box-shadow:0 0 0 1px #000, 0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(57,197,207,.06);
+    box-shadow:0 0 0 1px #000,0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(57,197,207,.06);
     display:flex;flex-direction:column;overflow:hidden;
   }
-  .bar{
-    height:40px;flex:none;background:var(--bar);border-bottom:1px solid var(--line);
-    display:flex;align-items:center;padding:0 14px;gap:8px;position:relative;
-  }
+  .bar{height:40px;flex:none;background:var(--bar);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:8px;position:relative}
   .dot{width:12px;height:12px;border-radius:50%}
   .r{background:#ff5f56}.y{background:#ffbd2e}.g{background:#27c93f}
-  .bar .title{
-    position:absolute;left:0;right:0;text-align:center;color:var(--dim);
-    font-size:13px;pointer-events:none;
-  }
-  .screen{
-    flex:1;overflow:auto;padding:30px 38px;font-size:17px;line-height:1.75;
-  }
-  .nav{
-    height:30px;flex:none;background:var(--bar);border-top:1px solid var(--line);
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 14px;font-size:12px;color:var(--dim);
-  }
+  .bar .title{position:absolute;left:0;right:0;text-align:center;color:var(--dim);font-size:13px;pointer-events:none}
+  .screen{flex:1;overflow:auto;padding:30px 38px;font-size:17px;line-height:1.75}
+  .nav{height:30px;flex:none;background:var(--bar);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:12px;color:var(--dim)}
   .progress{position:absolute;left:0;bottom:0;height:2px;background:var(--cyan);transition:width .25s}
   .navwrap{position:relative}
-
-  /* slides */
   .slide{display:none;animation:fade .35s ease}
   .slide.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
   .cmd{color:var(--dim)}
   .cmd .u{color:var(--green2)} .cmd .p{color:var(--blue)} .cmd .d{color:var(--purple)}
   h1{font-size:30px;margin:6px 0 4px;color:#fff;font-weight:700;letter-spacing:.5px}
-  h2{font-size:23px;margin:4px 0 14px;color:var(--cyan);font-weight:700}
+  h2{font-size:23px;margin:4px 0 16px;color:var(--cyan);font-weight:700}
   .cmt{color:var(--dim)}
   .ok{color:var(--green)} .err{color:var(--red)} .arr{color:var(--cyan)} .cyan{color:var(--cyan)}
-  .flow{font-size:14px;letter-spacing:.5px;margin:2px 0 20px;color:#6e7681}
+  .flow{font-size:14px;letter-spacing:.5px;margin:2px 0 22px;color:#6e7681}
   .flow .on{color:#0d1117;background:var(--cyan);padding:3px 12px;border-radius:5px;font-weight:700}
   .flow .sep{color:#30363d;margin:0 8px}
   .hl{color:var(--yellow)} .key{color:var(--purple)} .b{color:#fff}
   ul{margin:8px 0;padding-left:0;list-style:none}
-  li{margin:7px 0;padding-left:22px;position:relative}
+  li{margin:8px 0;padding-left:22px;position:relative}
   li::before{content:"▸";position:absolute;left:0;color:var(--cyan)}
-  pre{margin:10px 0;color:var(--dim);font-size:15px;line-height:1.5;white-space:pre}
-  table{border-collapse:collapse;margin:8px 0;font-size:15px}
+  pre{margin:14px 0;color:var(--dim);font-size:16px;line-height:1.55;white-space:pre}
+  table{border-collapse:collapse;margin:8px 0}
   td{padding:3px 16px 3px 0;vertical-align:top}
-  td.k{color:var(--yellow);white-space:nowrap}
-  td.v{color:var(--fg)}
   .cmp td{padding:8px 48px 8px 0;vertical-align:top;font-size:17px}
   .cmp tr:first-child td{font-weight:700;border-bottom:1px solid var(--line);padding-bottom:10px}
   .big{font-size:19px}
-  .cur{display:inline-block;width:10px;height:20px;background:var(--green2);
-    vertical-align:-3px;margin-left:4px;animation:blink 1s steps(1) infinite}
+  .cur{display:inline-block;width:10px;height:20px;background:var(--green2);vertical-align:-3px;margin-left:4px;animation:blink 1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
   .center{text-align:center}
   .quote{color:var(--green2);font-style:italic}
@@ -85,46 +64,40 @@
 <div class="term">
   <div class="bar">
     <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-    <span class="title">tuanhoang68@harness-lab: ~ — presentation</span>
+    <span class="title">harness + mvp — presentation</span>
   </div>
   <div class="screen" id="screen">
 
-    <!-- 1 -->
+    <!-- 1 title -->
     <section class="slide active">
-      <p class="cmd"><span class="u">tuanhoang68</span>@<span class="p">harness-lab</span>:<span class="d">~</span>$ whoami</p>
-      <h1>harness-lab<span class="cur"></span></h1>
-      <p class="big">Cỗ máy quy trình <span class="hl">tự động hóa việc code</span> với Claude</p>
-      <pre><span class="cmt"># + một Shopify app build &amp; chạy LIVE bằng chính nó</span></pre>
-      <p class="cmt">Đồ án tốt nghiệp · tuanhoang68</p>
-      <p class="quote">"Không chỉ build 1 app — mà build cỗ máy đẻ ra app, có test, mọi lần như một."</p>
+      <p class="cmd"><span class="u">tuanhoang68</span>@<span class="p">workspace</span>:<span class="d">~</span>$ cat san-pham.txt</p>
+      <h1>HARNESS &nbsp;+&nbsp; 1 MVP<span class="cur"></span></h1>
+      <p class="big" style="margin-top:16px"><span class="cyan">①</span> &nbsp;<span class="hl">HARNESS</span> — cỗ máy quy trình tự động hóa việc code với Claude</p>
+      <p class="big"><span class="cyan">②</span> &nbsp;<span class="hl">MVP</span> — Shopify Facebook Pixel app · build bằng harness · chạy LIVE</p>
+      <p class="cmt" style="margin-top:20px"># harness-lab = nhà máy tạo ra 2 sản phẩm trên</p>
     </section>
 
-    <!-- how-it-works (đầu) -->
+    <!-- 2 app flow -->
     <section class="slide">
       <p class="cmd">$ how-it-works</p>
       <h2>App hoạt động thế nào</h2>
-<pre>  ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-  │  <span class="hl">Merchant</span>   │ <span class="cyan">───▶</span> │     <span class="hl">App</span>     │ <span class="cyan">───▶</span> │ <span class="hl">Storefront</span>  │
-  │  (store)    │      │  (backend)  │      │  + pixel    │
-  └─────────────┘      └─────────────┘      └─────────────┘</pre>
-      <p><span class="cyan">①</span> &nbsp;Merchant cài app + nhập <span class="hl">Pixel ID</span></p>
-      <p><span class="cyan">②</span> &nbsp;App tự gắn pixel vào storefront</p>
-      <p><span class="cyan">③</span> &nbsp;Khách xem store → <span class="ok">pixel ghi nhận lượt xem</span> (gửi về App)</p>
+<pre>  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+  │ <span class="hl">Cài &amp; Login</span>  │<span class="cyan">─▶</span>│ <span class="hl">Nhập Pixel ID</span>│<span class="cyan">─▶</span>│  <span class="hl">Gắn vào</span>     │<span class="cyan">─▶</span>│  <span class="hl">Ghi nhận</span>    │
+  │  (OAuth)     │  │              │  │  storefront  │  │  lượt xem    │
+  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘</pre>
     </section>
 
-    <!-- features -->
+    <!-- 3 features -->
     <section class="slide">
       <p class="cmd">$ ls features</p>
       <h2>Tính năng của app</h2>
-      <p><span class="key">F1</span> &nbsp;Cài app vào store <span class="cmt">— OAuth</span></p>
-      <p><span class="key">F2</span> &nbsp;Cấu hình Pixel ID <span class="cmt">— nhập · validate · lưu</span></p>
-      <p><span class="key">F3</span> &nbsp;Nhúng pixel vào storefront <span class="cmt">— fire lượt xem</span></p>
-      <p><span class="key">F4</span> &nbsp;Xem Pixel ID đang lưu <span class="cmt">— đọc lại config</span></p>
+      <p><span class="key">①</span> &nbsp;<span class="hl">Install &amp; Login</span> &nbsp;<span class="cmt">— cài app + đăng nhập qua Shopify OAuth</span></p>
+      <p><span class="key">②</span> &nbsp;<span class="hl">Quản lý Pixel</span> &nbsp;<span class="cmt">— nhập · validate · lưu · xem · gắn vào storefront</span></p>
     </section>
 
-    <!-- 2 -->
+    <!-- 4 before/after -->
     <section class="slide">
-      <p class="cmd">$ diff  trước-harness  sau-harness</p>
+      <p class="cmd">$ diff  truoc-harness  sau-harness</p>
       <h2>Trước &amp; sau khi học harness</h2>
       <table class="cmp">
         <tr><td class="err">TRƯỚC harness</td><td class="ok">SAU harness</td></tr>
@@ -134,7 +107,7 @@
       </table>
     </section>
 
-    <!-- course 1/2 -->
+    <!-- 5 course 1/2 -->
     <section class="slide">
       <p class="cmd">$ map --course --applied  (1/2)</p>
       <h2>Áp dụng theo giáo trình — 4 buổi SÂU</h2>
@@ -151,7 +124,7 @@
        skills /make* (promote ~/.claude) · CLAUDE.md · subagent F4</pre>
     </section>
 
-    <!-- course 2/2 -->
+    <!-- 6 course 2/2 -->
     <section class="slide">
       <p class="cmd">$ map --course --applied  (2/2)</p>
       <h2>Áp dụng theo giáo trình — 3 buổi MỘT PHẦN</h2>
@@ -167,140 +140,75 @@
        <span class="ok">✓</span> Harness Design = LÕI (recipes · micro-harness · maturity)
        <span class="cmt">⬜ Team adoption → L4 · Cross-model → L5</span></pre>
 <pre>  <span class="cmt">──────────────────────────────────────────────</span>
-  <span class="ok">SÂU:</span> B1·B2·B3·B5    <span class="hl">PHẦN:</span> B4·B6·B7
-  <span class="cmt"># 3 chỗ thiếu (Hooks · MCP · Team/Cross) đều có trong PLAN roadmap</span></pre>
+  <span class="ok">SÂU:</span> B1·B2·B3·B5    <span class="hl">PHẦN:</span> B4·B6·B7</pre>
     </section>
 
-    <!-- 3 -->
-    <section class="slide">
-      <p class="cmd">$ cat harness-engineering.md</p>
-      <h2>Ý tưởng: Harness engineering</h2>
-<pre>  Model (Claude)  ⊂  Claude Code  ⊂  <span class="hl">META-HARNESS</span>  ← mình xây</pre>
-      <ul>
-        <li>Harness = <span class="b">mọi thứ bao quanh AI</span> để tự động hóa: recipe · template · cổng kiểm</li>
-        <li>Nguyên lý: <span class="hl">"Cố định contract, thay solver"</span> — quy trình bất biến, đổi bài toán chỉ đổi người giải</li>
-      </ul>
-    </section>
-
-    <!-- 4 -->
-    <section class="slide">
-      <p class="cmd">$ ls harness-lab/</p>
-      <h2>Sản phẩm: harness-lab</h2>
-      <ul>
-        <li><span class="b">Dự án = cỗ máy quy trình</span>, KHÔNG phải 1 app cụ thể</li>
-        <li>Gõ <span class="key">/make</span> → harness tự dẫn: <span class="arr">intake → build → verify</span></li>
-        <li>Gồm: 3 template chuẩn (App/Feature/Design) · cổng <span class="hl">DoR/DoD</span> · recipe <span class="key">/make·/make-app·/make-feature</span></li>
-      </ul>
-    </section>
-
-    <!-- 5 -->
+    <!-- 7 how harness runs -->
     <section class="slide">
       <p class="cmd">$ make --how</p>
-      <h2>Cách nó chạy</h2>
-<pre>  yêu cầu → <span class="arr">INTAKE</span> (hỏi có cấu trúc) → Feature Spec <span class="ok">(Ready)</span>
-         → <span class="arr">BUILD</span> (TDD: test trước) → <span class="arr">VERIFY</span> (test xanh) → <span class="ok">DONE</span></pre>
+      <h2>Cách harness chạy</h2>
+<pre>  yêu cầu → <span class="arr">INTAKE</span> → Feature Spec <span class="ok">(Ready)</span> → <span class="arr">BUILD</span> (TDD) → <span class="arr">VERIFY</span> → <span class="ok">DONE</span></pre>
       <ul>
-        <li>User chỉ làm 2 việc: <span class="hl">cung cấp sự thật domain + duyệt cổng</span></li>
-        <li>Harness lo phần lặp lại: hỏi đúng thứ tự · soạn nháp · check gate · viết test</li>
+        <li>User chỉ: <span class="hl">cung cấp domain + duyệt cổng</span></li>
+        <li>Harness lo: hỏi · soạn nháp · check gate · viết test</li>
       </ul>
     </section>
 
-    <!-- STEP-1 INTAKE -->
+    <!-- 8 step INTAKE -->
     <section class="slide">
       <p class="flow"><span class="on">INTAKE</span><span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
       <h2>Bước 1 · INTAKE</h2>
-      <p><span class="hl">LÀM GÌ:</span> yêu cầu thô → Spec chuẩn (<span class="hl">DoR</span>: User Story + Gherkin AC)</p>
-      <p><span class="cyan">TẠI SAO:</span> nhốt hỗn loạn về <span class="hl">1 chuẩn</span> TRƯỚC khi code</p>
-      <p><span class="err">BỎ ĐI:</span> code theo yêu cầu mơ hồ → build sai</p>
+<pre>  <span class="cmt">yêu cầu thô</span>  <span class="cyan">──▶</span>  [ <span class="hl">INTAKE</span> ]  <span class="cyan">──▶</span>  Spec chuẩn <span class="ok">✓ DoR</span></pre>
+      <p class="cmt">→ nhốt hỗn loạn về 1 chuẩn TRƯỚC khi code</p>
     </section>
 
-    <!-- STEP-2 DECOMPOSE -->
+    <!-- 9 step DECOMPOSE -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span><span class="on">DECOMPOSE</span><span class="sep">─▸</span>BUILD<span class="sep">─▸</span>VERIFY</p>
-      <h2>Bước 2 · DECOMPOSE <span class="cmt">(cấp app)</span></h2>
-      <p><span class="hl">LÀM GÌ:</span> App Spec → nhiều <span class="hl">Feature Spec</span> nhỏ độc lập</p>
-      <p><span class="cyan">TẠI SAO:</span> chia nhỏ để kiểm được, chạy song song</p>
-      <p><span class="err">BỎ ĐI:</span> build cả app 1 cục → khó test, dễ ngợp</p>
+      <h2>Bước 2 · DECOMPOSE</h2>
+<pre>  <span class="cmt">App Spec</span>  <span class="cyan">──▶</span>  [ <span class="hl">DECOMPOSE</span> ]  <span class="cyan">──▶</span>  Feature 1 · 2 · 3</pre>
+      <p class="cmt">→ chia nhỏ để kiểm được, chạy song song</p>
     </section>
 
-    <!-- STEP-3 BUILD -->
+    <!-- 10 step BUILD -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span><span class="on">BUILD</span><span class="sep">─▸</span>VERIFY</p>
-      <h2>Bước 3 · BUILD <span class="cmt">(μ-build = TDD)</span></h2>
-      <p><span class="hl">LÀM GÌ:</span> mỗi AC → <span class="hl">test TRƯỚC (RED)</span> → code (GREEN) → refactor</p>
-      <p><span class="cyan">TẠI SAO:</span> code có test, từng tiêu chí kiểm được</p>
-      <p><span class="err">BỎ ĐI:</span> code không test = không tin được</p>
+      <h2>Bước 3 · BUILD</h2>
+<pre>  <span class="cmt">Feature Spec</span>  <span class="cyan">──▶</span>  [ <span class="hl">BUILD</span> · <span class="err">test</span>→<span class="ok">code</span> ]  <span class="cyan">──▶</span>  code + test <span class="ok">✓</span></pre>
+      <p class="cmt">→ TDD: test trước (RED) → code (GREEN)</p>
     </section>
 
-    <!-- STEP-4 VERIFY -->
+    <!-- 11 step VERIFY -->
     <section class="slide">
       <p class="flow">INTAKE<span class="sep">─▸</span>DECOMPOSE<span class="sep">─▸</span>BUILD<span class="sep">─▸</span><span class="on">VERIFY</span></p>
       <h2>Bước 4 · VERIFY</h2>
-      <p><span class="hl">LÀM GÌ:</span> test xanh + <span class="hl">chạy thật</span> → đối chiếu <span class="hl">DoD</span></p>
-      <p><span class="cyan">TẠI SAO:</span> "done" cần bằng chứng, không tin lời</p>
-      <p><span class="err">BỎ ĐI:</span> "tưởng xong" mà hỏng → phát hiện muộn</p>
+<pre>  <span class="cmt">code</span>  <span class="cyan">──▶</span>  [ <span class="hl">VERIFY</span> · test✓ + chạy thật ]  <span class="cyan">──▶</span>  <span class="ok">DONE ✓</span></pre>
+      <p class="cmt">→ tin bằng chứng, không tin lời</p>
     </section>
 
-    <!-- 6 -->
-    <section class="slide">
-      <p class="cmd">$ go test ./...   <span class="cmt"># ▶ DEMO</span></p>
-      <h2>Bằng chứng: Shopify app build bằng harness</h2>
-      <ul>
-        <li><span class="b">fb-pixel-mvp</span>: gắn Facebook Pixel vào storefront, <span class="hl">không sửa theme</span></li>
-        <li><span class="ok">28 test TDD</span> · F1 cài app (OAuth) · F2 cấu hình Pixel · F3 nhúng Web Pixel</li>
-        <li><span class="ok">CHẠY LIVE THẬT</span> trên store: token thật · web pixel <span class="hl">fire event thật</span> từ storefront</li>
-      </ul>
-<pre class="ok">  ok  fb-pixel-mvp/internal/web        28 passed
-  PixelEvent received from storefront: {"event":"page_viewed", ...}</pre>
-    </section>
-
-    <!-- 7 -->
-    <section class="slide">
-      <p class="cmd">$ claude --new-session  &lt; /make-feature</p>
-      <h2>Khoảnh khắc "wow": harness TỰ LÁI</h2>
-      <ul>
-        <li>Feature <span class="key">F4</span> do <span class="b">một AGENT KHÁC (context trắng)</span> tự build — chỉ bằng skill <span class="key">/make-feature</span></li>
-        <li>Tự: đọc convention → viết Feature Spec → <span class="hl">TDD (RED→GREEN)</span> → test xanh</li>
-        <li><span class="arr">→</span> Harness <span class="b">không phải mình làm tay</span>; nó <span class="ok">tái lập được</span> quy trình</li>
-      </ul>
-    </section>
-
-    <!-- 9 -->
+    <!-- 12 difficulties -->
     <section class="slide">
       <p class="cmd">$ ./debug.log</p>
       <h2>Khó khăn &amp; cách xử lý</h2>
       <ul>
-        <li><span class="hl">R1</span>: Web Pixel sandbox không load fbq client-side → <span class="b">điều chỉnh DoD trung thực</span> sang fetch event về backend (không giả vờ đạt)</li>
-        <li><span class="hl">Node cũ</span> không chạy CLI mới → <span class="key">nvm</span> node 22 (không sudo)</li>
-        <li><span class="hl">Tunnel đổi URL</span> mỗi lần → viết <span class="key">sync-tunnel.sh</span> tự đồng bộ</li>
+        <li><span class="hl">R1</span>: Web Pixel sandbox không load fbq client-side → điều chỉnh DoD sang fetch event về backend</li>
+        <li><span class="hl">Node cũ</span> không chạy CLI mới → nvm node 22 (không sudo)</li>
+        <li><span class="hl">Tunnel đổi URL</span> mỗi lần → script sync tự động</li>
       </ul>
     </section>
 
-    <!-- 10 -->
-    <section class="slide">
-      <p class="cmd">$ cat results-and-lessons.md</p>
-      <h2>Kết quả &amp; Bài học</h2>
-      <p><span class="ok">Kết quả:</span> harness tái dùng + app 3 feature <span class="hl">LIVE</span> + feature do agent tự build</p>
-      <p class="b" style="margin-top:10px">Bài học:</p>
-      <ul>
-        <li>Harness = <span class="hl">khung + kỷ luật</span> → rồi codify thành tự động</li>
-        <li><span class="b">Verify bằng bằng chứng thật</span>, không tin suông</li>
-        <li>Test một skill còn <span class="hl">tự mài sắc chính skill</span> (vòng RED→GREEN)</li>
-      </ul>
-    </section>
-
-    <!-- 11 -->
+    <!-- 13 roadmap -->
     <section class="slide">
       <p class="cmd">$ make roadmap</p>
       <h2>Hành trình phía trước</h2>
 <pre>  <span class="ok">L1 ✅</span> Methodology → <span class="cyan">L2</span> Automation (hooks) → <span class="cyan">L3</span> Reliability
-       → <span class="cyan">L4</span> Team scale (PR/CI, parallel) → <span class="cyan">L5</span> Self-improving (metrics)</pre>
+       → <span class="cyan">L4</span> Team scale → <span class="cyan">L5</span> Self-improving</pre>
       <ul>
-        <li>Hướng: từ <span class="b">1 dev</span> → giúp <span class="hl">cả team</span> code nhanh hơn, đáng tin hơn</li>
+        <li>Từ <span class="b">1 dev</span> → giúp <span class="hl">cả team</span> code nhanh hơn, đáng tin hơn</li>
       </ul>
     </section>
 
-    <!-- 12 -->
+    <!-- 14 end -->
     <section class="slide center">
       <p class="cmd">$ exit</p>
       <h1>Cảm ơn 🙌</h1>
@@ -310,9 +218,9 @@
 
   </div>
   <div class="nav navwrap">
-    <span id="counter">[01/12]</span>
+    <span id="counter">[01/14]</span>
     <span>← → di chuyển · F: fullscreen</span>
-    <div class="progress" id="bar" style="width:8.33%"></div>
+    <div class="progress" id="bar" style="width:7%"></div>
   </div>
 </div>
 
@@ -340,7 +248,6 @@
     }
   });
   document.querySelector('.term').addEventListener('click',e=>{
-    // click phải nửa màn → next, nửa trái → prev
     const r=e.currentTarget.getBoundingClientRect();
     (e.clientX-r.left > r.width/2)?next():prev();
   });
