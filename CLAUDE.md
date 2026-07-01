@@ -5,6 +5,7 @@ tuân theo các quy ước sau.
 
 > **Bắt đầu phiên: đọc [`PLAN.md`](PLAN.md)** — bản đồ sống, biết đang ở đâu / đi đâu.
 > Bối rối loại spec → [`knowledge/glossary.md`](knowledge/glossary.md).
+> Cách dùng harness (gõ gì → ra sản phẩm, 3 case + sample) → [`meta/USAGE.md`](meta/USAGE.md).
 
 ## Ngôn ngữ
 - Tài liệu, nhận xét, nhật ký: **tiếng Việt**.
